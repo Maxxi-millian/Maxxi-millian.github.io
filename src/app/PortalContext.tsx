@@ -108,7 +108,7 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
         error,
         rateLimitHit,
         warnings,
-        isDemoMode: isDemoMode || portalSettings.githubUsername === 'octocat' || portalSettings.githubUsername === 'Maxxi-millian' && items.length === 0 && loadState === 'success',
+        isDemoMode: isDemoMode || portalSettings.githubUsername === 'octocat',
         homeItem,
         reload: load,
         settings: portalSettings,

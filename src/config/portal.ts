@@ -11,8 +11,8 @@ export const portalSettings: PortalSettings = {
 
   // ─── Información del portal ───────────────────────────────────────────
   portalName: 'Maxxi Millian | Portfolio',
-  subtitle: 'Digital Architect & Developer',
-  description: 'Bienvenido a mi portal personal. Aquí encontrarás todos mis desarrollos, herramientas y recursos públicos.',
+  subtitle: 'Creative Visual Artist',
+  description: 'Bienvenido a mi galería digital. Aquí puedes explorar mis últimas obras, proyectos visuales y experimentaciones creativas.',
 
   // ─── Home como Repo (NUEVO) ──────────────────────────────────────────
   // Si quieres que el texto de la página de inicio se lea desde un repo,

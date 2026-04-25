@@ -6,6 +6,19 @@ export function Hero() {
 
   if (!user) return null;
 
+  // Use homeItem (repo-based) iframe if specified
+  if (homeItem?.iframe && homeItem.repo.homepage) {
+    return (
+      <section className="position-relative w-100 overflow-hidden" style={{ height: '80vh', minHeight: '600px' }}>
+        <iframe 
+          src={homeItem.repo.homepage} 
+          title="Home Cover" 
+          className="w-100 h-100 border-0"
+        />
+      </section>
+    );
+  }
+
   // Easy modification: uses homeItem (repo-based), then config fields, then GitHub account info
   const title = homeItem?.title || settings.heroTitle || settings.portalName || user.name || user.login;
   const subtitle = homeItem?.section || settings.heroSubtitle || settings.subtitle;
