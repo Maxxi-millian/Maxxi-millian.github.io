@@ -5,10 +5,17 @@ import { ThemeToggle } from '../components/ThemeToggle';
 import { Icon } from '../components/Icon';
 
 export function Nav() {
-  const { user, items, settings } = usePortal();
+  const { user, items, settings, homeItem } = usePortal();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  // Combine regular items and homeItem if it has nav: true
   const navItems = items.filter(item => item.nav);
+  if (homeItem?.nav) {
+    // Only add if not already in the list (safety check)
+    if (!navItems.find(i => i.id === homeItem.id)) {
+      navItems.unshift(homeItem);
+    }
+  }
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
