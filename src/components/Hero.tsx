@@ -24,7 +24,7 @@ export function Hero() {
   const subtitle = homeItem?.section || settings.heroSubtitle || settings.subtitle;
   const description = homeItem?.description || settings.heroDescription || settings.description || user.bio || 'Desarrollador apasionado creando soluciones tecnológicas innovadoras.';
   
-  const ctaLabel = homeItem?.action?.label || settings.heroCtaLabel || 'Ver Proyectos';
+  const ctaLabel = homeItem?.action?.label || settings.heroCtaLabel || 'Explorar Galería';
   const ctaUrl = homeItem?.action?.type === 'open-url' ? homeItem.action.target : (settings.heroCtaUrl || '#proyectos');
 
   const scrollToProjects = (e: React.MouseEvent) => {

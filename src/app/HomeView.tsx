@@ -29,18 +29,33 @@ export function HomeView() {
                 ))}
               </div>
               <hr className="my-5 border-secondary opacity-10" />
+            <div className="container py-5" id="proyectos">
+          <div className="row mb-5">
+            <div className="col-lg-8">
+              <h2 className="display-6 fw-bold mb-3">Obras Seleccionadas</h2>
+              <p className="text-muted lead">
+                Una colección curada de mis últimos trabajos, exploraciones visuales y proyectos creativos.
+              </p>
+            </div>
+          </div>
+
+          {items.length === 0 ? (
+            <div className="text-center py-5 border rounded-4 bg-light bg-opacity-50">
+              <p className="text-muted mb-0">Aún no hay obras configuradas en la galería.</p>
+            </div>
+          ) : (
+            <div className="row">
+              {loadState === 'loading' ? (
+                [1, 2, 3].map(i => <SkeletonCard key={i} />)
+              ) : (
+                filteredItems.map(item => (
+                  <Card key={item.id} item={item} />
+                ))
+              )}
             </div>
           )}
-
-          <div className="row">
-            {loadState === 'loading' ? (
-              [1, 2, 3].map(i => <SkeletonCard key={i} />)
-            ) : (
-              filteredItems.map(item => (
-                <Card key={item.id} item={item} />
-              ))
-            )}
-          </div>
+            </div>
+          )}
         </div>
       )}
 

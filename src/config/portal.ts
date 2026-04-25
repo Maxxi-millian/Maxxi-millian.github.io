@@ -12,7 +12,7 @@ export const portalSettings: PortalSettings = {
   // ─── Información del portal ───────────────────────────────────────────
   portalName: 'Maxxi Millian | Portfolio',
   subtitle: 'Creative Visual Artist',
-  description: 'Bienvenido a mi galería digital. Aquí puedes explorar mis últimas obras, proyectos visuales y experimentaciones creativas.',
+  description: 'Bienvenido a mi galería digital. Aquí puedes explorar mis últimas obras, galería visual y experimentaciones creativas.',
 
   // ─── Home como Repo (NUEVO) ──────────────────────────────────────────
   // Si quieres que el texto de la página de inicio se lea desde un repo,
@@ -39,7 +39,7 @@ export const portalSettings: PortalSettings = {
   heroTitle: 'Maxxi Millian', 
   heroSubtitle: 'Full Stack & Creative Developer',
   heroDescription: 'Transformando ideas complejas en experiencias tecnológicas simples y elegantes.',
-  heroCtaLabel: 'Ver Proyectos',
+  heroCtaLabel: 'Explorar Galería',
   heroCtaUrl: '', 
 
   // ─── Modo de datos ───────────────────────────────────────────────────
