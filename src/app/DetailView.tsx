@@ -78,38 +78,17 @@ export function DetailView() {
           </p>
 
           <div className="markdown-body">
-            {item.iframe ? (
+            {item.iframe && item.repo.homepage ? (
               <div className="iframe-container mb-4">
-                {item.repo.homepage ? (
-                  <>
-                    <div className="rounded-4 overflow-hidden border border-secondary shadow-lg bg-white" style={{ height: '75vh' }}>
-                      <iframe 
-                        src={item.repo.homepage} 
-                        title={item.title} 
-                        className="w-100 h-100 border-0"
-                      />
-                    </div>
-                    <div className="mt-3 p-3 bg-light border rounded-3 d-flex align-items-center gap-3">
-                      <Icon name="info" size={20} className="text-primary" />
-                      <small className="text-muted">
-                        ¿Ves un error 404? Asegúrate de que las <strong>GitHub Pages</strong> estén activadas en los ajustes del repositorio <em>{item.repo.name}</em>.
-                      </small>
-                    </div>
-                  </>
-                ) : (
-                  <div className="p-5 text-center border rounded-4 bg-light">
-                    <Icon name="alert-circle" size={48} className="text-warning mb-3" />
-                    <h4>URL de Galería no encontrada</h4>
-                    <p className="text-muted">
-                      Para mostrar este proyecto como una web, debes activar <strong>GitHub Pages</strong> en el repositorio o añadir la URL en el campo <code>homepage</code> de GitHub.
-                    </p>
-                    <a href={item.repo.html_url} target="_blank" rel="noopener noreferrer" className="btn btn-outline-primary mt-2">
-                      Ir a Ajustes del Repo
-                    </a>
-                  </div>
-                )}
+                <div className="rounded-4 overflow-hidden border border-secondary shadow-lg bg-white" style={{ height: '75vh' }}>
+                  <iframe 
+                    src={item.repo.homepage} 
+                    title={item.title} 
+                    className="w-100 h-100 border-0"
+                  />
+                </div>
               </div>
-            ) : item.readme && readmeHtml ? (
+            ) : (readmeHtml || item.description) ? (
               <div className="markdown-body" dangerouslySetInnerHTML={{ __html: readmeHtml }} />
             ) : (
               <div className="markdown-body text-center py-5 opacity-50">
