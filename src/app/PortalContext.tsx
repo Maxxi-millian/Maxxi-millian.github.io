@@ -9,7 +9,6 @@ import React, {
 import type { GitHubUser, PortalItem } from '../types/portal';
 import { loadPortal } from '../features/portal/portalLoader';
 import { filterVisibleItems, sortItems } from '../features/portal/portalTransformer';
-import { MOCK_USER, MOCK_ITEMS } from '../features/portal/mockData';
 import { portalSettings, GITHUB_TOKEN } from '../config/portal';
 import { GitHubRateLimitError } from '../features/github/githubClient';
 
@@ -26,15 +25,12 @@ interface PortalContextValue {
   error: string | null;
   rateLimitHit: boolean;
   warnings: string[];
-  isDemoMode: boolean;
   homeItem: PortalItem | null;
   reload: () => void;
   settings: typeof portalSettings;
 }
 
 const PortalContext = createContext<PortalContextValue | null>(null);
-
-const IS_DEMO = import.meta.env.VITE_DEMO_MODE === 'true';
 
 export function PortalProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<GitHubUser | null>(null);
@@ -46,18 +42,7 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
   const [homeItem, setHomeItem] = useState<PortalItem | null>(null);
   const loadedOnce = useRef(false);
 
-  const isDemoMode = IS_DEMO || portalSettings.dataMode === 'static-snapshot';
-
   const load = useCallback(async () => {
-    // Demo / static-snapshot mode
-    if (isDemoMode || portalSettings.githubUsername === 'octocat') {
-      setUser(MOCK_USER);
-      const visible = filterVisibleItems(MOCK_ITEMS);
-      setItems(sortItems(visible));
-      setLoadState('success');
-      return;
-    }
-
     setLoadState('loading');
     setError(null);
     setRateLimitHit(false);
@@ -66,13 +51,17 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
     try {
       const result = await loadPortal(portalSettings, GITHUB_TOKEN);
       setUser(result.user);
-      
-      const visible = filterVisibleItems(result.items);
-      setItems(sortItems(visible));
 
-      // Resolve home item if specified
+      const visible = filterVisibleItems(result.items);
+      const sorted = sortItems(visible);
+      setItems(sorted);
+
+      // Find the home repo if configured — it's just a regular repo read via API
       if (portalSettings.homeRepoName) {
-        const homeRepo = result.items.find(item => item.repo.name === portalSettings.homeRepoName);
+        // Search in ALL items (before filter) to find portal-home even if it has no topic
+        const homeRepo = result.items.find(
+          item => item.repo.name === portalSettings.homeRepoName
+        );
         if (homeRepo) setHomeItem(homeRepo);
       }
 
@@ -82,15 +71,13 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
     } catch (err) {
       if (err instanceof GitHubRateLimitError) {
         setRateLimitHit(true);
-        setError(err.message);
+        setError('Límite de API de GitHub alcanzado. Espera unos minutos y recarga la página.');
       } else {
         setError((err as Error).message ?? 'Error desconocido cargando el portal.');
       }
       setLoadState('error');
-      // If user is null (API failed), fallback to Mock User so Hero can render
-      if (!user) setUser(MOCK_USER);
     }
-  }, [isDemoMode, user]);
+  }, []);
 
   useEffect(() => {
     if (!loadedOnce.current) {
@@ -102,13 +89,12 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
   return (
     <PortalContext.Provider
       value={{
-        user: user || MOCK_USER,
+        user,
         items,
         loadState,
         error,
         rateLimitHit,
         warnings,
-        isDemoMode: isDemoMode || portalSettings.githubUsername === 'octocat',
         homeItem,
         reload: load,
         settings: portalSettings,

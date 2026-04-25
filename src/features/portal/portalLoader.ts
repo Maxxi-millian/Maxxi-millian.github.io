@@ -55,7 +55,11 @@ export async function loadPortal(
     token
   );
 
-  const candidates = allRepos.filter((r) => isCandidate(r, settings));
+  // Always include the homeRepo even if it doesn't have portal-item topic
+  const homeRepoName = settings.homeRepoName;
+  const candidates = allRepos.filter(
+    (r) => isCandidate(r, settings) || (homeRepoName && r.name === homeRepoName)
+  );
 
   // Phase 2 — fetch details only for candidates
   const items: PortalItem[] = [];
