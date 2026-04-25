@@ -77,6 +77,11 @@ export function transformToPortalItem(params: {
     hero: config?.hero,
     readme: renderReadme && (config?.readme !== false) && !config?.iframe,
     iframe: config?.iframe ?? false,
+    // If iframe is true but homepage is missing, try to guess the Pages URL
+    repo: {
+      ...repo,
+      homepage: repo.homepage || (config?.iframe ? `https://${repo.owner.login}.github.io/${repo.name}/` : repo.homepage)
+    },
     releases: showReleases && (config?.releases !== false),
     links: config?.links ?? [],
     download: config?.download,

@@ -54,13 +54,19 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
 
       const visible = filterVisibleItems(result.items);
       const sorted = sortItems(visible);
-      setItems(sorted);
+      
+      // Filter out the home repo from the gallery items list
+      const homeRepoName = portalSettings.homeRepoName;
+      const galleryItems = homeRepoName 
+        ? sorted.filter(item => item.repo.name !== homeRepoName)
+        : sorted;
+
+      setItems(galleryItems);
 
       // Find the home repo if configured — it's just a regular repo read via API
-      if (portalSettings.homeRepoName) {
-        // Search in ALL items (before filter) to find portal-home even if it has no topic
+      if (homeRepoName) {
         const homeRepo = result.items.find(
-          item => item.repo.name === portalSettings.homeRepoName
+          item => item.repo.name === homeRepoName
         );
         if (homeRepo) setHomeItem(homeRepo);
       }
