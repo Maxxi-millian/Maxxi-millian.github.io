@@ -37,7 +37,7 @@ export const portalSettings: PortalSettings = {
   // ─── Personalización del Inicio ──────────────────────────────────────
   // Estos se usan si homeRepoName está vacío:
   heroTitle: 'Maxxi Millian', 
-  heroSubtitle: 'Full Stack & Creative Developer',
+  heroSubtitle: 'Creative Visual Artist',
   heroDescription: 'Transformando ideas complejas en experiencias tecnológicas simples y elegantes.',
   heroCtaLabel: 'Explorar Galería',
   heroCtaUrl: '', 
